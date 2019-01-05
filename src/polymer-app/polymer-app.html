@@ -1,0 +1,143 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/login-component/login-component.html">
+<link rel="import" href="../../bower_components/language-component/language-component.html">
+<link rel="import" href="../../bower_components/contact-list/contact-list.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<dom-module id="polymer-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .container{
+        width: 80%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      article.language{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+      }
+      article.cards{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+      }
+    </style>
+    
+    <div class="container">
+        <paper-toast id="toast" class="fit-bottom"></paper-toast>
+        <header>
+            <language-component source="src/locales" lang="es" on-language-changed="changeLanguage"></language-component>
+        </header>
+        <article class="language" hidden$="[[isLogged]]">
+            <login-component language="[[languageSelected]]" on-login-user="_login" on-register-user="_register"></login-component>
+        </article>
+        <article class="cards" hidden$="[[!isLogged]]" >
+            <contact-list users="[[users]]" language="[[languageSelected]]"></contact-list>
+            <paper-button on-tap="logout">[[languageSelected.logout]]</paper-button>
+        </article>
+        
+        
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PolymerApp extends Polymer.Element {
+      static get is() { return 'polymer-app'; }
+      static get properties() {
+        return {
+          users: {
+              type: Array,
+              value: []
+          },
+          languageSelected: {
+            type: String,
+            value: '',
+            observer: '_setLocal'
+          },
+          locales: {
+              type: Object,
+              value: []
+            },
+          localSelected: {
+              type: Object,
+              value: {}
+          },
+          isLogged: {
+              type: Boolean,
+              value: false
+          },
+        };
+      }
+
+      ready(){
+        super.ready();
+        const user = [
+            {
+              name:"admin",
+              lastName:"admin",
+              age: 40,
+              image: "https://i.etsystatic.com/15019647/r/il/c43948/1185855186/il_570xN.1185855186_sz9j.jpg",
+              status: 'off',
+              username: 'admin',
+              password: 'admin',
+              passwordConfirm: 'admin'
+            },
+            {
+              name:"usu",
+              lastName:"usu",
+              age: 40,
+              image: "https://i.etsystatic.com/14238683/r/il/2d98b2/1423725316/il_570xN.1423725316_buei.jpg",
+              status: 'on',
+              username: 'usu',
+              password: 'usu',
+              passwordConfirm: 'usu'
+            }
+          ];
+            for (const iterator of user) {
+              this.push('users', iterator);
+            }
+      }
+
+      _setLocal() {
+        this.set('localSelected', this.languageSelected);
+      }
+      changeLanguage(event){
+        console.log(event.detail.data)
+        this.set('languageSelected', event.detail.data);
+      }
+
+
+      _login(event){
+        const temp = event.detail;
+          const match = this.users.filter(user => user.username === temp.username && user.password === temp.password);
+          if (match.length === 1) {
+              this.set('isLogged', true);
+          } else {
+              this.$.toast.text = 'Credenciales inválidas';
+              this.$.toast.show();
+          }
+      }
+
+      logout() {
+        this.set('isLogged', false);
+      }
+
+      _register(event){
+        const user = event.detail;
+        this.push('users', user);
+      }
+    }
+    window.customElements.define(PolymerApp.is, PolymerApp);
+  </script>
+</dom-module>

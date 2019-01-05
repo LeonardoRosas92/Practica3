@@ -1,0 +1,15 @@
+{
+  "name": "polymer-app",
+  "main": "index.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "login-component": "LeonardoRosas92/login-component",
+    "language-component": "LeonardoRosas92/language-component",
+    "paper-button": "PolymerElements/paper-button#2.1.3",
+    "contact-list": "LeonardoRosas92/contact-list"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  }
+}
