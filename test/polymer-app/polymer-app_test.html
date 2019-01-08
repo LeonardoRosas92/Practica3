@@ -13,38 +13,32 @@
   </head>
   <body>
 
-    <test-fixture id="BasicTestFixture">
+    <test-fixture id="BasicTestLogged">
       <template>
-        <polymer-app></polymer-app>
+        <polymer-app is-logged></polymer-app>
       </template>
     </test-fixture>
 
-    <test-fixture id="ChangedPropertyTestFixture">
+    <test-fixture id="BasicTestLang">
       <template>
-        <polymer-app prop1="new-prop1"></polymer-app>
+        <polymer-app is-logged></polymer-app>
       </template>
     </test-fixture>
 
     <script>
       suite('polymer-app', function() {
 
-        test('instantiating the element with default properties works', function() {
-          var element = fixture('BasicTestFixture');
-          assert.equal(element.prop1, 'polymer-app');
-          var elementShadowRoot = element.shadowRoot;
-          var elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello polymer-app!');
+        test('Prop isLogged ', (done) => {
+          var element = fixture('BasicTestLogged');
+          assert.equal(element.isLogged, true);
+          done();
         });
 
-        test('setting a property on the element works', function() {
-          // Create a test fixture
-          var element = fixture('ChangedPropertyTestFixture');
-          assert.equal(element.prop1, 'new-prop1');
-          var elementShadowRoot = element.shadowRoot;
-          var elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+        test('Prop lang ', (done) => {
+          var element = fixture('BasicTestLogged');
+          assert.equal(element.isLogged, true);
+          done();
         });
-
       });
     </script>
 
