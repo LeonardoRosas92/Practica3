@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/LeonardoRosas92/Practica3.svg?branch=master)](https://travis-ci.org/LeonardoRosas92/Practica3)
 # \<polymer-app\>
 
 
